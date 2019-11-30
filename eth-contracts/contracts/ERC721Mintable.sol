@@ -33,9 +33,9 @@ contract Ownable {
     function transferOwnership(address newOwner) public onlyOwner {
         // TODO add functionality to transfer control of the contract to a newOwner.
         // make sure the new owner is a real address
-        require(Address.isContract(newOwner) == false, "Address must be a user account.");
+        require(newOwner != address(0), "New owner's address not valid");
         _owner = newOwner;
-        emit OwnershipTransfered(_owner);
+        emit OwnershipTransfered(newOwner);
     }
 }
 
@@ -249,15 +249,14 @@ contract ERC721 is Pausable, ERC165 {
 
         // TODO revert if given tokenId already exists or given address is invalid
         require(!_exists(tokenId), "This token already exists");
-        //fix. What are requirements to be valid?
-        //require(true, "The given address is not valid");
+        require(to != address(0), "ERC721: transfer to the zero address");
 
         // TODO mint tokenId to given address & increase token count of owner
-        _mint(to, tokenId);
+        _tokenOwner[tokenId] = to;
+        _ownedTokensCount[to].increment();
 
         // TODO emit Transfer event
-        // fix from is == msg.sender?
-        // emit Transfer(address indexed from, to, tokenId);
+        emit Transfer(msg.sender, to, tokenId);
 
     }
 
@@ -269,11 +268,10 @@ contract ERC721 is Pausable, ERC165 {
         require(from == ownerOf(tokenId), "From address does not match owner address");
 
         // TODO: require token is being transfered to valid address
-        //fix. What are requirements to be valid?
-        //require(to == validAddr, "Receiver's address is not valid");
+        require(to != address(0), "ERC721: transfer to the zero address");
 
         // TODO: clear approval
-        // fix ?
+        _clearApproval(tokenId);
 
         // TODO: update token counts & transfer ownership of the token ID
         Counters.decrement(_ownedTokensCount[from]);
@@ -485,7 +483,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
 }
 
 contract ERC721Metadata is ERC721Enumerable, usingOraclize {
-    
+        
     // TODO: Create private vars for token _name, _symbol, and _baseTokenURI (string)
     string private _name;
     string private _symbol;
@@ -520,11 +518,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
         return _symbol;
     }
 
-    function baseTokenURI() external view returns(string memory) {
+    function getBaseTokenURI() external view returns(string memory) {
         return _baseTokenURI;
     }
 
-    function tokenURI(uint256 tokenId) external view returns (string memory) {
+    function getTokenURI(uint256 tokenId) external view returns (string memory) {
         require(_exists(tokenId));
         return _tokenURIs[tokenId];
     }
@@ -550,6 +548,7 @@ contract CustomERC721Token is ERC721Metadata {
     //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
 
     string baseURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+    
     constructor (string memory name, string memory symbol) ERC721Metadata(name, symbol, baseURI) public {}
 
     //  2) create a public mint() that does the following:
@@ -557,12 +556,11 @@ contract CustomERC721Token is ERC721Metadata {
     //      -takes in a 'to' address, tokenId, and tokenURI as parameters
     //      -returns a true boolean upon completion of the function
     //      -calls the superclass mint and setTokenURI functions
-    function mint(address to, uint256 tokenID, uint256 tokenURI) public onlyOwner returns(bool) {
+    function mint(address to, uint256 tokenID) public onlyOwner returns(bool) {
 
-        bool success = false;
+        bool success = true;
         super._mint(to, tokenID);
-        super.setTokenURI(tokenURI);
-        success = true;
+        super.setTokenURI(tokenID);
         return success;
     }
 }
