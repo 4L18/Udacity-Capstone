@@ -19,14 +19,14 @@ contract('TestSquareVerifier', accounts => {
         // Test verification with correct proof
         it('verification with correct proof', async function(){
             let rightInputs = correctProof.inputs;
-            let verified = await this.contract.verifyTx(a, b, c, rightInputs, {from:account_one});
+            let verified = await this.contract.verifyTx.call(a, b, c, rightInputs, {from:account_one});
             assert(verified, "Verification should be true");
         })
 
         // Test verification with incorrect proof
         it('verification with incorrect proof', async function(){
             let wrongInputs = [2,3];
-            let verified = await this.contract.verifyTx(a, b, c, wrongInputs, {from:account_one});
+            let verified = await this.contract.verifyTx.call(a, b, c, wrongInputs, {from:account_one});
             assert(!verified, "Verification should be false");
         })
     })

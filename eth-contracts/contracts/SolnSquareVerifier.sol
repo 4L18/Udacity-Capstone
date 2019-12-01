@@ -5,7 +5,7 @@ import "./verifier.sol";
 import "./ERC721Mintable.sol";
 
 // TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
-contract SquareVerifier is verifier {
+contract SquareVerifier is Verifier {
 
 }
 
