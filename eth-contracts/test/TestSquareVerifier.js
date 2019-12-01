@@ -5,7 +5,7 @@ let correctProof = require('../../zokrates/code/square/proof.json');
 
 contract('TestSquareVerifier', accounts => {
 
-    const account_one = accounts[0];
+    const account0 = accounts[0];
     const a = correctProof.proof.a;
     const b = correctProof.proof.b;
     const c = correctProof.proof.c;
@@ -13,20 +13,20 @@ contract('TestSquareVerifier', accounts => {
     describe('Test verification', function() {
         
         beforeEach(async function () { 
-            this.contract = await squareVerifier.new({from: account_one});
+            this.contract = await squareVerifier.new({from: account0});
         })
 
         // Test verification with correct proof
         it('verification with correct proof', async function(){
             let rightInputs = correctProof.inputs;
-            let verified = await this.contract.verifyTx.call(a, b, c, rightInputs, {from:account_one});
+            let verified = await this.contract.verifyTx.call(a, b, c, rightInputs, {from:account0});
             assert(verified, "Verification should be true");
         })
 
         // Test verification with incorrect proof
         it('verification with incorrect proof', async function(){
             let wrongInputs = [2,3];
-            let verified = await this.contract.verifyTx.call(a, b, c, wrongInputs, {from:account_one});
+            let verified = await this.contract.verifyTx.call(a, b, c, wrongInputs, {from:account0});
             assert(!verified, "Verification should be false");
         })
     })

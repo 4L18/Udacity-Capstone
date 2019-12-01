@@ -547,9 +547,11 @@ contract CustomERC721Token is ERC721Metadata {
     //  1) Pass in appropriate values for the inherited ERC721Metadata contract
     //      - make the base token uri: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/
 
+    string name = 'RealEstateToken';
+    string symbol = 'RET';
     string baseURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
     
-    constructor (string memory name, string memory symbol) ERC721Metadata(name, symbol, baseURI) public {}
+    constructor () ERC721Metadata(name, symbol, baseURI) public {}
 
     //  2) create a public mint() that does the following:
     //      -can only be executed by the contract owner
