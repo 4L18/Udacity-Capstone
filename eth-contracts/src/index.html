@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <script src="https://raw.githubusercontent.com/ethereum/web3.js/1.x/dist/web3.min.js"></script>
-    <script type="text/javascript">
-        
-        //var Proof = require('../../zokrates/code/square/proof.json');
-        //var SolnSquareVerifier = artifacts.require("./SolnSquareVerifier.json");
-        
+<!DOCTYPE html>	
+<html lang="en" dir="ltr">	
+  <head>	
+    <meta charset="utf-8">	
+    <title></title>	
+  </head>	
+  <body>	
+    <h1>Mint Tokens</h1>	
+  </body>	
+    <script type="text/javascript" src="https://raw.githubusercontent.com/ethereum/web3.js/1.x/dist/web3.min.js"></script>	
+    <script type="text/javascript">	
+        var web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
+        const contractAddr = '0xF4189013846C9aF6E15b189AC9c482fc90e10e9e';
+        const addr = '0x6f70B580953BE0f4957E764e03243CFA9F5E1A18';
         const abi = [
             {
             "constant": true,
@@ -658,12 +660,11 @@
             "type": "function"
             }
         ];
-        const contractAddr = '0xF4189013846C9aF6E15b189AC9c482fc90e10e9e';
-        console.log(abi);
-        var web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-        console.log(web3);
-        
-        var myContract = new web3.eth.contract(abi, contractAddr);
+
+        var myContract = new web3.eth.contract(abi, contractAddr, {
+            from: addr, // default from address
+            gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+        });
 
         const Proof = {
             "proof": {
@@ -677,13 +678,11 @@
         const b = Proof.proof.b;
         const c = Proof.proof.c;
         const input = Proof.inputs;
-        var addr = '0x6f70B580953BE0f4957E764e03243CFA9F5E1A18';
 
-        async () => {
-            for (var i = 1; i <= 10; i++) {
-                let cb = await myContract.methods.mintToken(addr, i, a, b, c, input).send();
-                console.log('Token ' + i + ' minted');
-            }
+        async function mint(tokenId) {
+            let mintTransaction = await myContract.methods.mintToken(addr, tokenId, a, b, c, input).send({from: addr});
+            console.log('Token minted: ' + mintTransaction);
         }
     </script>
-</body>
+  </body>
+</html>
