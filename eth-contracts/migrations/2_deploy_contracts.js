@@ -6,6 +6,5 @@ module.exports = function(deployer) {
   deployer.deploy(SquareVerifier)
     .then(() => {
       return deployer.deploy(SolnSquareVerifier, SquareVerifier.address)
-      console.log(SolnSquareVerifier.abi);
     });
 };

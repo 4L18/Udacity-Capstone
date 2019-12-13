@@ -257,7 +257,6 @@ contract ERC721 is Pausable, ERC165 {
 
         // TODO emit Transfer event
         emit Transfer(msg.sender, to, tokenId);
-
     }
 
     // @dev Internal function to transfer ownership of a given token ID to another address.
@@ -510,11 +509,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     }
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
-    function getName() external view returns(string memory) {
+    function name() external view returns(string memory) {
         return _name;
     }
 
-    function getSymbol() external view returns(string memory) {
+    function symbol() external view returns(string memory) {
         return _symbol;
     }
 
