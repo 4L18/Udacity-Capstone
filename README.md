@@ -664,13 +664,6 @@ Run the tests:
 
 `truffle test` or `npm test`
 
-## How to use it
-
-1. Open index.html in /src folder.
-2. Change the variable addr for yours.
-3. Run command `python -m SimpleHTTPServer 8000`
-4. Open console in browser and type mint(x) where x is the id of the token.
-
 # Project Resources
 
 * [Remix - Solidity IDE](https://remix.ethereum.org/)
