@@ -7,7 +7,8 @@ The capstone will build upon the knowledge you have gained in the course in orde
 OpenSea MarketPlace: https://rinkeby.opensea.io/accounts/0x6f70b580953be0f4957e764e03243cfa9f5e1a18
 Address: `0x3690629aD060382d850D1E95395E5B6aC0E0fC89`
 Abi:
-```[
+```
+[
     {
       "constant": true,
       "inputs": [
@@ -654,7 +655,8 @@ Abi:
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ]```
+  ]
+```
 
 ## Test the project
 
